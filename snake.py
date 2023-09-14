@@ -49,11 +49,14 @@ def border_collision(position):
 
 
 # Function to generate a new food position on a 10x10 pixel grid
-def new_food():
-    return (random.randint(10, width - 20) // 10 * 10, random.randint(10, height - 20) // 10 * 10)
+def new_food(snake):
+    while True:
+        food = (random.randint(10, width - 20) // 10 * 10, random.randint(10, height - 20) // 10 * 10)
+        if food not in snake:
+            return food
 
 
-food = new_food()
+food = new_food(snake)
 
 
 # Function to check collision between two elements based on their position
@@ -99,7 +102,7 @@ while waiting:
 
     # Check if the snake's head has reached the food
     if collision(snake[0], food):
-        food = new_food()  # Place new food
+        food = new_food(snake)  # Place new food
     else:
         snake.pop()  # Remove the last segment to simulate movement
 
@@ -111,6 +114,7 @@ while waiting:
 
     draw_snake(snake)
     pygame.display.flip()
+    
 
 print("Game over")
 time.sleep(1)
